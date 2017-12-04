@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>DnD Adventure Tracker - Home</title>
+    <link rel="stylesheet" href="./styles.css"/>
+</head>
+
+<body>
+    <!-- page header bar -->
+    <header>
+        <div>
+            <h1>DnD Adventure Tracker</h1>
+        </div>
+        <div>
+            <nav>
+                <ul>
+                    <li><a href="#">Test 1</a></li>
+                    <li><a href="#">Test 2</a></li>
+                    <li><a href="#">Test 3</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div></div>
+    </header>
+
+    <!-- page content -->
+    <div id="content">
+
+        <!-- list of pinned campaigns -->
+        <div class="list-container" id="pinned-container">
+            <h2>Pinned Campaigns</h2>
+            <div>
+                <div class="list-item pinned-campaign">
+                    <div class="pinned-unpin">
+                        <button>-</button>
+                    </div>
+                    <h3 class="pinned-title">Trekking Blackmoor</h4>
+                    <div class="pinned-players">
+                        <span>6 players</span>
+                    </div>
+                    <div class="pinned-lastplayed">
+                        <span>Last played...</span>
+                    </div>
+                    <div class="pinned-playingfor">
+                        <span>Playing for...</span>
+                    </div>
+                    <div class="pinned-buttons">
+                        <button>Dashboard</button>
+                        <button>Session Log</button>
+                        <button>Settings</button>
+                    </div>
+                </div>
+
+                <div class="list-item pinned-campaign">
+                    <div class="pinned-unpin">
+                        <button>-</button>
+                    </div>
+                    <h3 class="pinned-title">Another Campaign</h4>
+                    <div class="pinned-players">
+                        <span>3 players</span>
+                    </div>
+                    <div class="pinned-lastplayed">
+                        <span>Last played...</span>
+                    </div>
+                    <div class="pinned-playingfor">
+                        <span>Playing for...</span>
+                    </div>
+                    <div class="pinned-buttons">
+                        <button>Dashboard</button>
+                        <button>Session Log</button>
+                        <button>Settings</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- list of every campaign the user is a part of -->
+        <div class="list-container" id="all-container">
+            <h2>All Campaigns</h2>
+            <div>
+                <div class="list-item campaign">
+                    <div class="camp-pin">
+                        <button>*</button>
+                    </div>
+                    <h4 class="camp-title">Trekking Blackmoor</h4>
+                    <div>
+                        <span>Dungeon Master</span>
+                    </div>
+                </div>
+                <div class="list-item campaign">
+                    <div class="camp-pin">
+                        <button>*</button>
+                    </div>
+                    <h4 class="camp-title">Another Campaign</h4>
+                    <div>
+                        <span>Dungeon Master</span>
+                    </div>
+                </div>
+                <div class="list-item campaign">
+                    <div class="camp-pin">
+                        <button>*</button>
+                    </div>
+                    <h4 class="camp-title">Shadow of Morder</h4>
+                    <div>
+                        <span>Orcy the Orc</span><span>(6)</span>
+                    </div>
+                </div>
+                <div class="list-item campaign">
+                    <div class="camp-pin">
+                        <button>*</button>
+                    </div>
+                    <h4 class="camp-title">Rogue One</h4>
+                    <div>
+                        <span>K2SO</span><span>(9)</span>
+                    </div>
+                </div>
+                <div id="add-campaign">
+                    <button>+ Start a Campaign!</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
