@@ -24,9 +24,13 @@
 	        font-family: 'Times New Roman';
 	        font-size: 17px;
 	    }
+	    input {
+	    	text-align: center;
+	    }
 	</style>
 </head>
 <body>
+	<h1>Edit Level EXP Threshold</h1>
 	<table>
 		<tr>
 			<th>Level 10</th>
@@ -35,20 +39,39 @@
 			<th>Current Threshold</th>
 		</tr>
 		<tr>
-			<th>85,000</th>
+			<th id="current-10-exp-threshold">64000</th>
 		</tr>
 		<tr>
 			<th>Enter New Threshold</th>
 		</tr>
 		<tr>
-			<th><input type="text" name="EXPBump"></th>
+			<th><input type="text" id="EXPBump" name="EXPBump" value="0"></th>
 		</tr>
 		<tr>
-			<th><button>Remove Level</button><button>Cancel</button></th>
+			<th><button disabled="true">Remove Level</button><button onclick="canceled();location.href='edit-exp-thresholds.html'">Cancel</button></th>
 		</tr>
 		<tr>
-			<th><button>Submit</button></th>
+			<th><button onclick="submitted();location.href='edit-exp-thresholds.html'">Submit</button></th>
 		</tr>
 	</table>
 </body>
 </html>
+
+<script type="text/javascript">
+	var x = localStorage.getItem("10ExpThreshold");
+	localStorage.setItem("Old10ExpThreshold",x);
+	if(x != 64000)
+	{
+		document.getElementById('current-10-exp-threshold').innerHTML = x.toString();
+	}
+
+	function submitted(){
+		var x = document.getElementById('EXPBump').value;
+		var newX = parseInt(x);
+		localStorage.setItem("10ExpThreshold",newX);
+	}
+
+	function canceled(){
+		localStorage.setItem('10ExpThreshold', localStorage.getItem("Old10ExpThreshold"));
+	}
+</script>

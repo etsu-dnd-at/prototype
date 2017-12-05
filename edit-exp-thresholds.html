@@ -12,6 +12,10 @@
 	            margin-top:40px;
 	            margin-left:40px;
 
+
+	        }
+	        table{
+	        	float: center;
 	        }
 	        th,td {
 	            padding: 5px;
@@ -28,43 +32,91 @@
 </head>
 <body>
 	<h1>Edit EXP Thresholds</h1>
-	<table>
+	<table align="center">
 		<tr>
-			<th></th>
+			<td></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button onclick="location.href='level-threshold-edit.html'">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+			<td><button disabled="true">Edit</button></td>
+		</tr>
+		<tr>
 			<th>Level</th>
-			<th>EXP Threshold</th>
-		</tr>
-		<tr>
-			<td><button>Edit</button></td>
+			<td>1</td>
+			<td>2</td>
+			<td>3</td>
+			<td>4</td>
+			<td>5</td>
+			<td>6</td>
+			<td>7</td>
 			<td>8</td>
-			<td>48,000</td>
-		</tr>
-		<tr>
-			<td><button>Edit</button></td>
 			<td>9</td>
-			<td>64,000</td>
-		</tr>
-		<tr>
-			<td><button>Edit</button></td>
 			<td>10</td>
-			<td>85,000</td>
-		</tr>
-		<tr>
-			<td><button>Edit</button></td>
 			<td>11</td>
-			<td>100,000</td>
-		</tr>
-		<tr>
-			<td><button>Edit</button></td>
 			<td>12</td>
-			<td>120,000</td>
+			<td>13</td>
+			<td>14</td>
+			<td>15</td>
+			<td>16</td>
+			<td>17</td>
+			<td>18</td>
+			<td>19</td>
+			<td>20</td>
 		</tr>
 		<tr>
-			<th colspan="3"><button>Reset to Defaults</button></th>
+			<th>EXP Threshold</th>
+			<td>0</td>
+			<td>900</td>
+			<td>2500</td>
+			<td>4500</td>
+			<td>7000</td>
+			<td>14000</td>
+			<td>23000</td>
+			<td>34000</td>
+			<td>48000</td>
+			<td id="10-exp-threshold">64,000</td>
+			<td>85000</td>
+			<td>100000</td>
+			<td>120000</td>
+			<td>140000</td>
+			<td>165000</td>
+			<td>195000</td>
+			<td>225000</td>
+			<td>265000</td>
+			<td>305000</td>
+			<td>335000</td>
 		</tr>
 		<tr>
-			<th colspan="3"><button>Add Level</button><button>Return to PC EXP</button></th>
+			<th colspan="21"><button disabled="true">Reset to Defaults</button></th>
+		</tr>
+		<tr>
+			<th colspan="21"><button disabled="true">Add Level</button><button onclick="location.href='pc-exp-view.html'">Return to PC EXP</button></th>
 		</tr>
 	</table>
 </body>
 </html>
+
+<script type="text/javascript">
+	var x = localStorage.getItem("10ExpThreshold");
+	if(x != 64000)
+	{
+		document.getElementById('10-exp-threshold').innerHTML = x.toString();
+	}
+
+</script>

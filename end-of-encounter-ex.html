@@ -31,9 +31,9 @@
 		<table>
 			<tr>
 				<th></th>
-   				<th><button>Bump</button></th>
-    			<th><button>Bump</button></th>
-    			<th><button>Bump</button></th>
+   				<th><button onclick="location.href='bump-screen.html'">Bump</button></th>
+    			<th><button disabled="true">Bump</button></th>
+    			<th><button disabled="true">Bump</button></th>
   			</tr>
 			<tr>
 				<th>PC</th>
@@ -49,9 +49,9 @@
   			</tr>
   			<tr>
     			<th>Current EXP</th>
-    			<td>60,000</td>
-    			<td>47,750</td>
-    			<td>56,890</td>
+    			<td id="alex-current-exp">60010</td>
+    			<td>47750</td>
+    			<td>56890</td>
   			</tr>
   			<tr>
     			<th>Total</th>
@@ -84,3 +84,13 @@
 		
 	</body>
 </html>
+
+<script type="text/javascript">
+
+		var x = localStorage.getItem("AlexExp");
+		if(x != "60010")
+		{
+			document.getElementById('alex-current-exp').innerHTML = x.toString();
+		}
+	
+</script>
