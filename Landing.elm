@@ -4,6 +4,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Date exposing (Date, fromString, toTime)
+import Date.Extra as Date
 
 -- TODO: Need a separate type for storing this thing as Javascript?
 -- init's first argument must be JSONable, and
@@ -40,6 +41,7 @@ updateWithStorage msg model =
 
 type alias Model =
     { campaigns : List Campaign
+    , creating : Bool
     }
 
 type alias Campaign =
@@ -72,6 +74,7 @@ type alias Character =
 
 type alias SerializableModel =
     { campaigns : List SerializableCampaign
+    , creating : Bool
     }
 
 type alias SerializableCampaign =
@@ -87,31 +90,31 @@ type alias SerializableCampaign =
 exampleModel : Model
 exampleModel =
     let
-        exampleCampaigns = 
-            [   { name = "Trekking Blackmoor" 
-                , players = 6 
-                , startDate = (Result.toMaybe <| Date.fromString <| "2015-06-11") 
+        exampleCampaigns =
+            [   { name = "Trekking Blackmoor"
+                , players = 6
+                , startDate = (Result.toMaybe <| Date.fromString <| "2015-06-11")
                 , lastPlayed = (Result.toMaybe <| Date.fromString <| "2017-12-02")
                 , pinned = True
                 , relationship = DM
                 }
-            ,   { name = "Example Campaign" 
+            ,   { name = "Example Campaign"
                 , players = 3
-                , startDate = (Result.toMaybe <| Date.fromString <| "2017-12-04") 
+                , startDate = (Result.toMaybe <| Date.fromString <| "2017-12-04")
                 , lastPlayed = Nothing
                 , pinned = True
                 , relationship = DM
                 }
-            ,   { name = "Shadow of Mordor" 
+            ,   { name = "Shadow of Mordor"
                 , players = 2
-                , startDate = (Result.toMaybe <| Date.fromString <| "2017-12-03") 
+                , startDate = (Result.toMaybe <| Date.fromString <| "2017-12-03")
                 , lastPlayed = Nothing
                 , pinned = False
                 , relationship = Player <| Character "Orcy the Orc" 6
                 }
-            ,   { name = "Rogue One" 
+            ,   { name = "Rogue One"
                 , players = 2
-                , startDate = (Result.toMaybe <| Date.fromString <| "2017-12-01") 
+                , startDate = (Result.toMaybe <| Date.fromString <| "2017-12-01")
                 , lastPlayed = Nothing
                 , pinned = False
                 , relationship = Player <| Character "K2S0" 4
@@ -119,6 +122,7 @@ exampleModel =
             ]
     in
         { campaigns = exampleCampaigns
+        , creating = False
         }
 
 init : Maybe SerializableModel -> ( Model, Cmd Msg )
@@ -127,7 +131,9 @@ init savedModel =
 
 toSerializable : Model -> SerializableModel
 toSerializable model =
-    { campaigns = List.map campaignToSerializable model.campaigns }
+    { campaigns = List.map campaignToSerializable model.campaigns
+    , creating = model.creating
+    }
 
 campaignToSerializable : Campaign -> SerializableCampaign
 campaignToSerializable model =
@@ -148,12 +154,14 @@ campaignToSerializable model =
         , dm = isDm
         , character = character
         , startDate = Maybe.withDefault 0.0 <| Maybe.map toTime model.startDate
-        , lastPlayed = Maybe.withDefault 0.0 <| Maybe.map toTime model.startDate
+        , lastPlayed = Maybe.withDefault 0.0 <| Maybe.map toTime model.lastPlayed
         }
 
 fromSerializable : SerializableModel -> Model
 fromSerializable smodel =
-    { campaigns = List.map campaignFromSerializable smodel.campaigns }
+    { campaigns = List.map campaignFromSerializable smodel.campaigns
+    , creating = smodel.creating
+    }
 
 campaignFromSerializable : SerializableCampaign -> Campaign
 campaignFromSerializable scamp =
@@ -163,7 +171,7 @@ campaignFromSerializable scamp =
                 DM
             else
                 Player <| Maybe.withDefault (Character "" 0) scamp.character
-            
+
     in
         { name = scamp.name
         , players = scamp.players
@@ -181,6 +189,7 @@ type Msg
     = NoOp
     | Add Campaign
     | SetPinned String Bool
+    | Creating Bool
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -189,7 +198,7 @@ update msg model =
             model ! []
 
         Add newCampaign ->
-            { model | 
+            { model |
                 campaigns = List.append model.campaigns [ newCampaign ]
             } ! []
 
@@ -200,11 +209,14 @@ update msg model =
                         { c | pinned = pin }
                     else
                         c
-                    
+
             in
                 { model |
-                    campaigns = List.map updateCampaign model.campaigns 
+                    campaigns = List.map updateCampaign model.campaigns
                 } ! []
+
+        Creating flag ->
+            { model | creating = flag } ! []
 
 -------------------------------------------------------------------------------
 -- VIEW
@@ -225,31 +237,39 @@ view model =
             [ class "list-container"
             , id "all-container"
             ]
-            [ h2 [] [ text "All Campaigns" ] 
-            , div [] (List.map campaignListItem model.campaigns)
+            [ h2 [] [ text "All Campaigns" ]
+            , div [] ((List.map campaignListItem model.campaigns) ++
+                [ button
+                    [ id "create-campaign-button"
+                    , onClick <| Creating True
+                    ]
+                    [ text "+ Start a campaign" ]
+                ])
             ]
+        , creationDialog model
+        , div [ class "md-overlay" ] []
         ]
 
 campaignListItem : Campaign -> Html Msg
-campaignListItem campaign = 
+campaignListItem campaign =
     let
         nameArea =
-            case campaign.relationship of  
+            case campaign.relationship of
                 DM ->
                     [ span [] [ text "Dungeon Master" ] ]
 
                 Player { name, level } ->
                     [ span [] [ text <| name ++ " "]
-                    , span [] [ text <| toString level ] 
+                    , span [] [ text <| toString level ]
                     ]
-        
-        info = 
+
+        info =
             [ h4 [] [ text (campaign.name) ]
             , div [] nameArea
             ]
         pinner =
-            div 
-                [ class "camp-pin" ] 
+            div
+                [ class "camp-pin" ]
                 [ button [ onClick <| SetPinned campaign.name True ] [ text "*" ] ]
 
         children =
@@ -257,19 +277,19 @@ campaignListItem campaign =
                 pinner :: info
             else
                 info
-            
+
     in
         div [ class "list-item campaign" ] children
 
 dateStringHelper : Maybe Date -> String
 dateStringHelper date =
-    date |> Maybe.map toString |> Maybe.withDefault "never"
+    date |> Maybe.map (Date.toFormattedString "MMMM d, y") |> Maybe.withDefault "never"
 
 pinnedListItem : Campaign -> Html Msg
 pinnedListItem campaign =
     div
         [ class "list-item pinned-campaign" ]
-        [ div 
+        [ div
             [ class "pinned-unpin" ]
             [ button [ onClick <| SetPinned campaign.name False ] [ text "-" ] ]
         , h3 [] [ text campaign.name ]
@@ -284,8 +304,8 @@ pinnedListItem campaign =
             [ span [] [ text <| "Playing since: " ++ (dateStringHelper campaign.startDate) ] ]
         , div
             [ class "pinned-buttons" ]
-            [ button 
-                [] 
+            [ button
+                []
                 [ text "Dashboard" ]
             , button
                 []
@@ -293,5 +313,29 @@ pinnedListItem campaign =
             , button
                 []
                 [ text "Settings" ]
+            ]
+        ]
+
+creationDialog : Model -> Html Msg
+creationDialog model =
+    div
+        [ class (if model.creating then "md-modal md-show" else "md-modal")
+        , id "creation-modal"
+        ]
+        [ div
+            [ class "md-content" ]
+            [ h3 [] [ text "Start a Campaign" ]
+            , div
+                []
+                [ p [] [ text "This is where the form will go!" ]
+                , button
+                    [ class "md-submit" ]
+                    [ text "Start!" ]
+                , button
+                    [ class "md-cancel"
+                    , onClick <| Creating False
+                    ]
+                    [ text "or, cancel" ]
+                ]
             ]
         ]
