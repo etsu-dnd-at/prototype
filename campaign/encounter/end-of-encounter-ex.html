@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DnD Adventure Tracker</title>
+			<style>
+	        table,th,td {
+	            border: 1px solid black;
+	            border-collapse: collapse;
+	            background-color: white;
+	            text-align: center;
+	            vertical-align: bottom;
+	            margin-top:40px;
+	            margin-left:40px;
+
+	        }
+	        th,td {
+	            padding: 5px;
+	            color: black;
+	        }
+	        select {
+	        border-radius: 3px;
+	        background-color: white;
+	        color: blue;
+	        font-family: 'Times New Roman';
+	        font-size: 17px;
+	    }
+	    </style>
+	</head>
+	<body>
+		<h1>End Of Encounter</h1>
+		<table>
+			<tr>
+				<th></th>
+   				<th><button onclick="location.href='bump-screen.html'">Bump</button></th>
+    			<th><button disabled="true">Bump</button></th>
+    			<th><button disabled="true">Bump</button></th>
+  			</tr>
+			<tr>
+				<th>PC</th>
+   				<th>Alex</th>
+    			<th>Belle</th>
+    			<th>Noster</th>
+  			</tr>
+  			<tr>
+    			<th>Present</th>
+    			<td>Yes</td>
+    			<td>No</td>
+    			<td>Yes</td>
+  			</tr>
+  			<tr>
+    			<th>Current EXP</th>
+    			<td id="alex-current-exp">60010</td>
+    			<td>47750</td>
+    			<td>56890</td>
+  			</tr>
+  			<tr>
+    			<th>Total</th>
+    			<td>780</td>
+    			<td>200</td>
+    			<td>780</td>
+  			</tr>
+  			<tr>
+    			<th>1</th>
+    			<td>400</td>
+    			<td>100</td>
+    			<td>400</td>
+  			</tr>
+  			<tr>
+    			<th>2</th>
+    			<td>100</td>
+    			<td>30</td>
+    			<td>100</td>
+  			</tr>
+  			<tr>
+    			<th>3</th>
+    			<td>280</td>
+    			<td>70</td>
+    			<td>280</td>
+  			</tr>
+  			<tr>
+  				<td colspan="4">
+            <a href="../view-players.html">
+              <button>End Of Encounter</button>
+            </a>
+          </td>
+  			</tr>
+		</table>
+		
+	</body>
+</html>
+
+<script type="text/javascript">
+
+		var x = localStorage.getItem("AlexExp");
+		if(x != "60010")
+		{
+			document.getElementById('alex-current-exp').innerHTML = x.toString();
+		}
+	
+</script>
