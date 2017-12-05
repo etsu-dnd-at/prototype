@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DnD Adventure Tracker</title>
+	<style>
+	    table,th,td {
+	            border: 1px solid black;
+	            border-collapse: collapse;
+	            background-color: white;
+	            text-align: center;
+	            vertical-align: bottom;
+	            margin-top:40px;
+	            margin-left:40px;
+
+	        }
+	        th,td {
+	            padding: 5px;
+	            color: black;
+	        }
+	        select {
+	        border-radius: 3px;
+	        background-color: white;
+	        color: blue;
+	        font-family: 'Times New Roman';
+	        font-size: 17px;
+	    }
+	    input {
+	    	text-align: center;
+	    }
+	    </style>
+</head>
+<body>
+	<h1>Bump PC EXP</h1>
+	<table>
+		<tr>
+			<th>Alex</th>
+		</tr>
+		<tr>
+			<th>Level 9</th>
+		</tr>
+		<tr>
+			<th rowspan="2">EXP Needed For Next Level<br />
+				<input type="text" name="exp-needed" id="exp-needed" readonly="true" value="3390"></th>
+		</tr>
+		<tr></tr>
+		<tr>
+			<th rowspan="2">Current EXP<br /><input type="text" name="current-exp" id="current-exp" readonly="true" value="60010"></th>
+		</tr>
+		<tr></tr>
+		<tr>
+			<th rowspan="2">Bump EXP<br /><input type="text" name="exp-bump" id="exp-bump" readonly="true" value="0"><button onclick="changeValuesAdd()">+</button><button onclick="changeValuesSub()">-</button></th>
+		</tr>
+		<tr></tr>
+		<tr>
+			<th><button onclick="location.href='pc-exp-view.html'">Submit</button><button onclick="canceled();location.href ='pc-exp-view.html'">Cancel</button></th>
+		</tr>
+	</table>
+</body>
+</html>
+
+<script type="text/javascript">
+		var x = localStorage.getItem("AlexExp");
+		localStorage.setItem("OldAlexExp",x);
+		if(x != 60010)
+		{
+			document.getElementById('current-exp').value = x.toString();
+		}
+
+		var y = localStorage.getItem("AlexExpNeed");
+		localStorage.setItem("OldAlexExpNeed",y);
+		if(y != 3390)
+		{
+			document.getElementById('exp-needed').value = y.toString();
+		}
+
+	function changeValuesAdd(){
+		var x = document.getElementById('exp-needed').value;
+		var y = document.getElementById('current-exp').value;
+		var z = document.getElementById('exp-bump').value;
+
+		var newX = parseInt(x);
+		var newY = parseInt(y);
+		var newZ = parseInt(z);
+
+		newX = newX - 10;
+		newY = newY + 10;
+		newZ = newZ + 10;
+
+		document.getElementById('exp-needed').value = newX;
+		document.getElementById('current-exp').value = newY;
+		document.getElementById('exp-bump').value = newZ;
+
+		localStorage.setItem('AlexExp', newY);
+		localStorage.setItem('AlexExpNeed', newX);
+	}
+
+	function changeValuesSub(){
+		var x = document.getElementById('exp-needed').value;
+		var y = document.getElementById('current-exp').value;
+		var z = document.getElementById('exp-bump').value;
+
+		var newX = parseInt(x);
+		var newY = parseInt(y);
+		var newZ = parseInt(z);
+
+		newX = newX + 10;
+		newY = newY - 10;
+		newZ = newZ - 10;
+
+		document.getElementById('exp-needed').value = newX;
+		document.getElementById('current-exp').value = newY;
+		document.getElementById('exp-bump').value = newZ;
+
+		localStorage.setItem('AlexExp', newY);
+		localStorage.setItem('AlexExpNeed', newX);
+	}
+
+	function canceled(){
+		localStorage.setItem('AlexExp', localStorage.getItem("OldAlexExp"));
+		localStorage.setItem('AlexExpNeed', localStorage.getItem("OldAlexExpNeed"));		
+	}
+
+</script>

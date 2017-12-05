@@ -99,6 +99,15 @@ view model =
               ]
         , div [ id "wrap-results", class "row-flex" ]
               [ resultView <| getOutputInfo model ]
+        , div 
+            []
+            [ a
+                [ href "TrackHP.html" ]
+                [ button
+                    []
+                    [ text "HP Tracker" ]
+                ]
+            ]
         ]
 
 

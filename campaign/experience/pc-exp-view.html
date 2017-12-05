@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dnd Adventure Tracker</title>
+	<style>
+	        table,th,td {
+	            border: 1px solid black;
+	            border-collapse: collapse;
+	            background-color: white;
+	            text-align: center;
+	            vertical-align: bottom;
+	            margin-top:40px;
+	            margin-left:40px;
+
+	        }
+	        th,td {
+	            padding: 5px;
+	            color: black;
+	        }
+	        select {
+	        border-radius: 3px;
+	        background-color: white;
+	        color: blue;
+	        font-family: 'Times New Roman';
+	        font-size: 17px;
+	    }
+	    </style>
+</head>
+<body>
+	<h1>DnD Adventure Tracker</h1>
+	<table>
+		<tr>
+			<th></th>
+			<th>PC</th>
+			<th>Current Level</th>
+			<th>Current EXP</th>
+			<th>EXP This Session (25)</th>
+			<th>EXP Needed For Next Level</th>
+		</tr>
+		<tr>
+			<td><button onclick="location.href='bump-screen-.html'">Bump</button></td>
+			<td>Alex</td>
+			<td>9</td>
+			<td id="alex-exp">60010</td>
+			<td>780</td>
+			<td id="alex-exp-need">3990</td>
+		</tr>
+		<tr>
+			<td><button disabled="true">Bump</button></td>
+			<td>Belle</td>
+			<td>8</td>
+			<td>47750</td>
+			<td>200</td>
+			<td>250</td>
+		</tr>
+		<tr>
+			<td><button disabled="true">Bump</button></td>
+			<td>Noster</td>
+			<td>9</td>
+			<td>56980</td>
+			<td>780</td>
+			<td>7020</td>
+		</tr>
+		<tr>
+			<td colspan="6"><button onclick="location.href='edit-exp-thresholds.html'">Edit EXP Thresholds</button><button>Return to Main Screen</button></td>
+		</tr>
+	</table>
+</body>
+</html>
+<script type="text/javascript">
+
+		var x = localStorage.getItem("AlexExp");
+		if(x != "60010")
+		{
+			document.getElementById('alex-exp').innerHTML = x.toString();
+		}
+
+		var y = localStorage.getItem("AlexExpNeed");
+		if(y != "3390")
+		{
+			document.getElementById('alex-exp-need').innerHTML = y.toString();
+		}
+	
+	
+</script>
