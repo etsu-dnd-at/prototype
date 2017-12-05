@@ -26,103 +26,20 @@
 
     <!-- page content -->
     <div id="content">
-
-        <!-- list of pinned campaigns -->
-        <div class="list-container" id="pinned-container">
-            <h2>Pinned Campaigns</h2>
-            <div>
-                <div class="list-item pinned-campaign">
-                    <div class="pinned-unpin">
-                        <button>-</button>
-                    </div>
-                    <h3 class="pinned-title">Trekking Blackmoor</h4>
-                    <div class="pinned-players">
-                        <span>6 players</span>
-                    </div>
-                    <div class="pinned-lastplayed">
-                        <span>Last played...</span>
-                    </div>
-                    <div class="pinned-playingfor">
-                        <span>Playing for...</span>
-                    </div>
-                    <div class="pinned-buttons">
-                        <button>Dashboard</button>
-                        <button>Session Log</button>
-                        <button>Settings</button>
-                    </div>
-                </div>
-
-                <div class="list-item pinned-campaign">
-                    <div class="pinned-unpin">
-                        <button>-</button>
-                    </div>
-                    <h3 class="pinned-title">Another Campaign</h4>
-                    <div class="pinned-players">
-                        <span>3 players</span>
-                    </div>
-                    <div class="pinned-lastplayed">
-                        <span>Last played...</span>
-                    </div>
-                    <div class="pinned-playingfor">
-                        <span>Playing for...</span>
-                    </div>
-                    <div class="pinned-buttons">
-                        <button>Dashboard</button>
-                        <button>Session Log</button>
-                        <button>Settings</button>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- list of every campaign the user is a part of -->
-        <div class="list-container" id="all-container">
-            <h2>All Campaigns</h2>
-            <div>
-                <div class="list-item campaign">
-                    <div class="camp-pin">
-                        <button>*</button>
-                    </div>
-                    <h4 class="camp-title">Trekking Blackmoor</h4>
-                    <div>
-                        <span>Dungeon Master</span>
-                    </div>
-                </div>
-                <div class="list-item campaign">
-                    <div class="camp-pin">
-                        <button>*</button>
-                    </div>
-                    <h4 class="camp-title">Another Campaign</h4>
-                    <div>
-                        <span>Dungeon Master</span>
-                    </div>
-                </div>
-                <div class="list-item campaign">
-                    <div class="camp-pin">
-                        <button>*</button>
-                    </div>
-                    <h4 class="camp-title">Shadow of Morder</h4>
-                    <div>
-                        <span>Orcy the Orc</span><span>(6)</span>
-                    </div>
-                </div>
-                <div class="list-item campaign">
-                    <div class="camp-pin">
-                        <button>*</button>
-                    </div>
-                    <h4 class="camp-title">Rogue One</h4>
-                    <div>
-                        <span>K2SO</span><span>(9)</span>
-                    </div>
-                </div>
-                <div id="add-campaign">
-                    <button>+ Start a Campaign!</button>
-                </div>
-            </div>
-        </div>
-
     </div>
+
+    <script type="text/javascript" src="build/Landing.js"></script>
+    <script type="text/javascript">
+        var storedState = localStorage.getItem('elm-campaign-save');
+        var startingState = storedState ? JSON.parse(storedState) : null;
+
+        var node = document.getElementById('content');
+        var app = Elm.Landing.embed(node, startingState);
+
+        app.ports.setStorage.subscribe(function(state) {
+            localStorage.setItem('elm-campaign-save', JSON.stringify(state));
+        });
+    </script>
 
 </body>
 </html>
