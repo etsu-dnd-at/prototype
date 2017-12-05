@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        fieldset {
+            background-color: white;
+            text-align: justify;
+            color: blue;
+            border-color: grey;
+            border-style: solid;
+            border-width: 50px;
+            margin: 25px 100px;
+            padding: 25px 50px;
+            width: 900px;
+            height: 500px;
+            font-family: 'Times New Roman';
+        }
+
+        label {
+            width: 12%;
+            display: inline-block;
+        }
+
+        select {
+            width: 12%;
+            padding: 10px 10px;
+            border: none;
+            border-radius: 3px;
+            background-color: white;
+            color: blue;
+            font-family: 'Times New Roman';
+            font-size: 17px;
+        }
+
+        body {
+            background-color: white;
+
+        }
+    </style>
+</head>
+
+<body>
+    <form action="view-players.html" autocomplete="on">
+
+
+        <fieldset>
+            <label>PC's Name:</label>
+            <input type="text" name="pc" value="Shrek"/>
+            <br>
+            <br>
+            <label>Race:</label>
+            <input type="text" name="race" value="High-ELf"/ >
+            <br>
+            <br>
+            <label> Level:</label>
+            <input type="number" name="level"  />
+            <button type="button">
+                +
+            </button>
+            <br>
+            <br>
+            <label> Class:</label>
+            <input type="text" name="class" value="Orge" />
+            <button type="button">
+                +
+            </button>
+            <br>
+            <br>
+            <label> Current XP:</label>
+            <input type="number" name="current xp" value="56930"/>
+            <br>
+            <br>
+            <div id="">
+                <b>Other Attributes</b> <br/>
+                <select name="OtherAttributes" id="">
+                        <option>Select</option>
+                        <option>Vision</option>
+                        <option>Curse</option>
+                        <option>Madness</option>
+                        <option>Exhaustion</option>
+                </select>
+                <input type="text" name="otherattributes" />
+                <button type="button">
+                        +
+                    </button>
+            </div>
+            
+            
+            <br>
+            <br>
+            <input type="Submit" onclick="alert('PC information saved successfully')">
+        </fieldset>
+
+    </form>
+
+    <script>
+        
+    </script>
+</body>
+
+</html>
