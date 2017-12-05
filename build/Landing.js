@@ -10570,206 +10570,39 @@ var _justinmimbs$elm_date_extra$Date_Extra$equalBy = F3(
 var _justinmimbs$elm_date_extra$Date_Extra$Second = {ctor: 'Second'};
 var _justinmimbs$elm_date_extra$Date_Extra$Millisecond = {ctor: 'Millisecond'};
 
-var _user$project$Landing$dateStringHelper = function (date) {
-	return A2(
-		_elm_lang$core$Maybe$withDefault,
-		'never',
-		A2(
-			_elm_lang$core$Maybe$map,
-			_justinmimbs$elm_date_extra$Date_Extra$toFormattedString('MMMM d, y'),
-			date));
+var _user$project$NewCampaign$emptyModel = {
+	show: false,
+	name: '',
+	date: _elm_lang$core$Maybe$Nothing,
+	errors: {ctor: '[]'}
 };
-var _user$project$Landing$campaignToSerializable = function (model) {
-	var character = function () {
-		var _p0 = model.relationship;
-		if (_p0.ctor === 'DM') {
-			return _elm_lang$core$Maybe$Nothing;
-		} else {
-			return _elm_lang$core$Maybe$Just(_p0._0);
-		}
-	}();
-	var isDm = function () {
-		var _p1 = model.relationship;
-		if (_p1.ctor === 'DM') {
-			return true;
-		} else {
-			return false;
-		}
-	}();
-	return {
-		name: model.name,
-		players: model.players,
-		pinned: model.pinned,
-		dm: isDm,
-		character: character,
-		startDate: A2(
-			_elm_lang$core$Maybe$withDefault,
-			0.0,
-			A2(_elm_lang$core$Maybe$map, _elm_lang$core$Date$toTime, model.startDate)),
-		lastPlayed: A2(
-			_elm_lang$core$Maybe$withDefault,
-			0.0,
-			A2(_elm_lang$core$Maybe$map, _elm_lang$core$Date$toTime, model.lastPlayed))
-	};
+var _user$project$NewCampaign$Model = F4(
+	function (a, b, c, d) {
+		return {show: a, name: b, date: c, errors: d};
+	});
+var _user$project$NewCampaign$NotUnique = {ctor: 'NotUnique'};
+var _user$project$NewCampaign$NameMissing = {ctor: 'NameMissing'};
+var _user$project$NewCampaign$DateMissing = {ctor: 'DateMissing'};
+var _user$project$NewCampaign$DateError = {ctor: 'DateError'};
+var _user$project$NewCampaign$NameError = {ctor: 'NameError'};
+var _user$project$NewCampaign$Show = function (a) {
+	return {ctor: 'Show', _0: a};
 };
-var _user$project$Landing$toSerializable = function (model) {
-	return {
-		campaigns: A2(_elm_lang$core$List$map, _user$project$Landing$campaignToSerializable, model.campaigns),
-		creating: model.createDialog.open
-	};
-};
-var _user$project$Landing$blankDialogModel = function (open) {
-	return {open: open, name: '', startDate: _elm_lang$core$Maybe$Nothing, nameError: _elm_lang$core$Maybe$Nothing, dateError: _elm_lang$core$Maybe$Nothing};
-};
-var _user$project$Landing$setStorage = _elm_lang$core$Native_Platform.outgoingPort(
-	'setStorage',
-	function (v) {
-		return {
-			campaigns: _elm_lang$core$Native_List.toArray(v.campaigns).map(
-				function (v) {
-					return {
-						name: v.name,
-						players: v.players,
-						startDate: v.startDate,
-						lastPlayed: v.lastPlayed,
-						pinned: v.pinned,
-						dm: v.dm,
-						character: (v.character.ctor === 'Nothing') ? null : {name: v.character._0.name, level: v.character._0.level}
-					};
-				}),
-			creating: v.creating
-		};
-	});
-var _user$project$Landing$Model = F2(
-	function (a, b) {
-		return {campaigns: a, createDialog: b};
-	});
-var _user$project$Landing$Campaign = F6(
-	function (a, b, c, d, e, f) {
-		return {name: a, players: b, startDate: c, lastPlayed: d, pinned: e, relationship: f};
-	});
-var _user$project$Landing$DialogModel = F5(
-	function (a, b, c, d, e) {
-		return {open: a, name: b, startDate: c, nameError: d, dateError: e};
-	});
-var _user$project$Landing$Character = F2(
-	function (a, b) {
-		return {name: a, level: b};
-	});
-var _user$project$Landing$SerializableModel = F2(
-	function (a, b) {
-		return {campaigns: a, creating: b};
-	});
-var _user$project$Landing$SerializableCampaign = F7(
-	function (a, b, c, d, e, f, g) {
-		return {name: a, players: b, startDate: c, lastPlayed: d, pinned: e, dm: f, character: g};
-	});
-var _user$project$Landing$Player = function (a) {
-	return {ctor: 'Player', _0: a};
-};
-var _user$project$Landing$DM = {ctor: 'DM'};
-var _user$project$Landing$newCampaign = F2(
-	function (name, start) {
-		return {
-			name: name,
-			players: 0,
-			startDate: _elm_lang$core$Maybe$Just(start),
-			lastPlayed: _elm_lang$core$Maybe$Nothing,
-			pinned: false,
-			relationship: _user$project$Landing$DM
-		};
-	});
-var _user$project$Landing$exampleModel = function () {
-	var exampleCampaigns = {
-		ctor: '::',
-		_0: {
-			name: 'Trekking Blackmoor',
-			players: 6,
-			startDate: _elm_lang$core$Result$toMaybe(
-				_elm_lang$core$Date$fromString('2015-06-11')),
-			lastPlayed: _elm_lang$core$Result$toMaybe(
-				_elm_lang$core$Date$fromString('2017-12-02')),
-			pinned: true,
-			relationship: _user$project$Landing$DM
-		},
-		_1: {
-			ctor: '::',
-			_0: {
-				name: 'Example Campaign',
-				players: 3,
-				startDate: _elm_lang$core$Result$toMaybe(
-					_elm_lang$core$Date$fromString('2017-12-04')),
-				lastPlayed: _elm_lang$core$Maybe$Nothing,
-				pinned: true,
-				relationship: _user$project$Landing$DM
-			},
-			_1: {
-				ctor: '::',
-				_0: {
-					name: 'Shadow of Mordor',
-					players: 2,
-					startDate: _elm_lang$core$Result$toMaybe(
-						_elm_lang$core$Date$fromString('2017-12-03')),
-					lastPlayed: _elm_lang$core$Maybe$Nothing,
-					pinned: false,
-					relationship: _user$project$Landing$Player(
-						A2(_user$project$Landing$Character, 'Orcy the Orc', 6))
-				},
-				_1: {
-					ctor: '::',
-					_0: {
-						name: 'Rogue One',
-						players: 2,
-						startDate: _elm_lang$core$Result$toMaybe(
-							_elm_lang$core$Date$fromString('2017-12-01')),
-						lastPlayed: _elm_lang$core$Maybe$Nothing,
-						pinned: false,
-						relationship: _user$project$Landing$Player(
-							A2(_user$project$Landing$Character, 'K2S0', 4))
-					},
-					_1: {ctor: '[]'}
-				}
-			}
-		}
-	};
-	return {
-		campaigns: exampleCampaigns,
-		createDialog: _user$project$Landing$blankDialogModel(false)
-	};
-}();
-var _user$project$Landing$campaignFromSerializable = function (scamp) {
-	var rel = scamp.dm ? _user$project$Landing$DM : _user$project$Landing$Player(
-		A2(
-			_elm_lang$core$Maybe$withDefault,
-			A2(_user$project$Landing$Character, '', 0),
-			scamp.character));
-	return {
-		name: scamp.name,
-		players: scamp.players,
-		startDate: _elm_lang$core$Maybe$Just(
-			_elm_lang$core$Date$fromTime(scamp.startDate)),
-		lastPlayed: _elm_lang$core$Maybe$Just(
-			_elm_lang$core$Date$fromTime(scamp.lastPlayed)),
-		pinned: scamp.pinned,
-		relationship: rel
-	};
-};
-var _user$project$Landing$fromSerializable = function (smodel) {
-	return {
-		campaigns: A2(_elm_lang$core$List$map, _user$project$Landing$campaignFromSerializable, smodel.campaigns),
-		createDialog: _user$project$Landing$blankDialogModel(smodel.creating)
-	};
-};
-var _user$project$Landing$Creating = function (a) {
-	return {ctor: 'Creating', _0: a};
-};
-var _user$project$Landing$creationDialog = function (model) {
+var _user$project$NewCampaign$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class(
-				model.open ? 'md-modal md-show' : 'md-modal'),
+			_0: _elm_lang$html$Html_Attributes$classList(
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'md-modal', _1: true},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'md-show', _1: model.show},
+						_1: {ctor: '[]'}
+					}
+				}),
 			_1: {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$id('creation-modal'),
@@ -10867,7 +10700,7 @@ var _user$project$Landing$creationDialog = function (model) {
 																	A2(
 																		_elm_lang$core$Maybe$map,
 																		_justinmimbs$elm_date_extra$Date_Extra$toFormattedString('yyyy-MM-dd'),
-																		model.startDate))),
+																		model.date))),
 															_1: {ctor: '[]'}
 														}
 													},
@@ -10899,7 +10732,7 @@ var _user$project$Landing$creationDialog = function (model) {
 													_1: {
 														ctor: '::',
 														_0: _elm_lang$html$Html_Events$onClick(
-															_user$project$Landing$Creating(false)),
+															_user$project$NewCampaign$Show(false)),
 														_1: {ctor: '[]'}
 													}
 												},
@@ -10919,6 +10752,365 @@ var _user$project$Landing$creationDialog = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
+var _user$project$NewCampaign$ClearErrors = {ctor: 'ClearErrors'};
+var _user$project$NewCampaign$AddError = function (a) {
+	return {ctor: 'AddError', _0: a};
+};
+var _user$project$NewCampaign$SetName = function (a) {
+	return {ctor: 'SetName', _0: a};
+};
+var _user$project$NewCampaign$SetDate = function (a) {
+	return {ctor: 'SetDate', _0: a};
+};
+var _user$project$NewCampaign$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'GetCurrentDate':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					model,
+					{
+						ctor: '::',
+						_0: A2(_elm_lang$core$Task$perform, _user$project$NewCampaign$SetDate, _elm_lang$core$Date$now),
+						_1: {ctor: '[]'}
+					});
+			case 'SetDate':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							date: _elm_lang$core$Maybe$Just(_p0._0)
+						}),
+					{ctor: '[]'});
+			case 'SetName':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{name: _p0._0}),
+					{ctor: '[]'});
+			case 'AddError':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							errors: {ctor: '::', _0: _p0._0, _1: model.errors}
+						}),
+					{ctor: '[]'});
+			case 'ClearErrors':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							errors: {ctor: '[]'}
+						}),
+					{ctor: '[]'});
+			default:
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{show: _p0._0}),
+					{ctor: '[]'});
+		}
+	});
+var _user$project$NewCampaign$GetCurrentDate = {ctor: 'GetCurrentDate'};
+var _user$project$NewCampaign$init = {
+	ctor: '_Tuple2',
+	_0: _user$project$NewCampaign$emptyModel,
+	_1: A2(
+		_elm_lang$core$Task$perform,
+		_elm_lang$core$Basics$identity,
+		_elm_lang$core$Task$succeed(_user$project$NewCampaign$GetCurrentDate))
+};
+
+var _user$project$Landing$dateStringHelper = function (date) {
+	return A2(
+		_elm_lang$core$Maybe$withDefault,
+		'never',
+		A2(
+			_elm_lang$core$Maybe$map,
+			_justinmimbs$elm_date_extra$Date_Extra$toFormattedString('MMMM d, y'),
+			date));
+};
+var _user$project$Landing$campaignToSerializable = function (model) {
+	var character = function () {
+		var _p0 = model.relationship;
+		if (_p0.ctor === 'DM') {
+			return _elm_lang$core$Maybe$Nothing;
+		} else {
+			return _elm_lang$core$Maybe$Just(_p0._0);
+		}
+	}();
+	var isDm = function () {
+		var _p1 = model.relationship;
+		if (_p1.ctor === 'DM') {
+			return true;
+		} else {
+			return false;
+		}
+	}();
+	return {
+		name: model.name,
+		players: model.players,
+		pinned: model.pinned,
+		dm: isDm,
+		character: character,
+		startDate: A2(
+			_elm_lang$core$Maybe$withDefault,
+			0.0,
+			A2(_elm_lang$core$Maybe$map, _elm_lang$core$Date$toTime, model.startDate)),
+		lastPlayed: A2(
+			_elm_lang$core$Maybe$withDefault,
+			0.0,
+			A2(_elm_lang$core$Maybe$map, _elm_lang$core$Date$toTime, model.lastPlayed))
+	};
+};
+var _user$project$Landing$toSerializable = function (model) {
+	return {
+		campaigns: A2(_elm_lang$core$List$map, _user$project$Landing$campaignToSerializable, model.campaigns)
+	};
+};
+var _user$project$Landing$setStorage = _elm_lang$core$Native_Platform.outgoingPort(
+	'setStorage',
+	function (v) {
+		return {
+			campaigns: _elm_lang$core$Native_List.toArray(v.campaigns).map(
+				function (v) {
+					return {
+						name: v.name,
+						players: v.players,
+						startDate: v.startDate,
+						lastPlayed: v.lastPlayed,
+						pinned: v.pinned,
+						dm: v.dm,
+						character: (v.character.ctor === 'Nothing') ? null : {name: v.character._0.name, level: v.character._0.level}
+					};
+				})
+		};
+	});
+var _user$project$Landing$Model = F2(
+	function (a, b) {
+		return {campaigns: a, createDialog: b};
+	});
+var _user$project$Landing$Campaign = F6(
+	function (a, b, c, d, e, f) {
+		return {name: a, players: b, startDate: c, lastPlayed: d, pinned: e, relationship: f};
+	});
+var _user$project$Landing$Character = F2(
+	function (a, b) {
+		return {name: a, level: b};
+	});
+var _user$project$Landing$SerializableModel = function (a) {
+	return {campaigns: a};
+};
+var _user$project$Landing$SerializableCampaign = F7(
+	function (a, b, c, d, e, f, g) {
+		return {name: a, players: b, startDate: c, lastPlayed: d, pinned: e, dm: f, character: g};
+	});
+var _user$project$Landing$Player = function (a) {
+	return {ctor: 'Player', _0: a};
+};
+var _user$project$Landing$DM = {ctor: 'DM'};
+var _user$project$Landing$newCampaign = F2(
+	function (name, start) {
+		return {
+			name: name,
+			players: 0,
+			startDate: _elm_lang$core$Maybe$Just(start),
+			lastPlayed: _elm_lang$core$Maybe$Nothing,
+			pinned: false,
+			relationship: _user$project$Landing$DM
+		};
+	});
+var _user$project$Landing$exampleCampaigns = {
+	ctor: '::',
+	_0: {
+		name: 'Trekking Blackmoor',
+		players: 6,
+		startDate: _elm_lang$core$Result$toMaybe(
+			_elm_lang$core$Date$fromString('2015-06-11')),
+		lastPlayed: _elm_lang$core$Result$toMaybe(
+			_elm_lang$core$Date$fromString('2017-12-02')),
+		pinned: true,
+		relationship: _user$project$Landing$DM
+	},
+	_1: {
+		ctor: '::',
+		_0: {
+			name: 'Example Campaign',
+			players: 3,
+			startDate: _elm_lang$core$Result$toMaybe(
+				_elm_lang$core$Date$fromString('2017-12-04')),
+			lastPlayed: _elm_lang$core$Maybe$Nothing,
+			pinned: true,
+			relationship: _user$project$Landing$DM
+		},
+		_1: {
+			ctor: '::',
+			_0: {
+				name: 'Shadow of Mordor',
+				players: 2,
+				startDate: _elm_lang$core$Result$toMaybe(
+					_elm_lang$core$Date$fromString('2017-12-03')),
+				lastPlayed: _elm_lang$core$Maybe$Nothing,
+				pinned: false,
+				relationship: _user$project$Landing$Player(
+					A2(_user$project$Landing$Character, 'Orcy the Orc', 6))
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					name: 'Rogue One',
+					players: 2,
+					startDate: _elm_lang$core$Result$toMaybe(
+						_elm_lang$core$Date$fromString('2017-12-01')),
+					lastPlayed: _elm_lang$core$Maybe$Nothing,
+					pinned: false,
+					relationship: _user$project$Landing$Player(
+						A2(_user$project$Landing$Character, 'K2S0', 4))
+				},
+				_1: {ctor: '[]'}
+			}
+		}
+	}
+};
+var _user$project$Landing$campaignFromSerializable = function (scamp) {
+	var rel = scamp.dm ? _user$project$Landing$DM : _user$project$Landing$Player(
+		A2(
+			_elm_lang$core$Maybe$withDefault,
+			A2(_user$project$Landing$Character, '', 0),
+			scamp.character));
+	return {
+		name: scamp.name,
+		players: scamp.players,
+		startDate: _elm_lang$core$Maybe$Just(
+			_elm_lang$core$Date$fromTime(scamp.startDate)),
+		lastPlayed: _elm_lang$core$Maybe$Just(
+			_elm_lang$core$Date$fromTime(scamp.lastPlayed)),
+		pinned: scamp.pinned,
+		relationship: rel
+	};
+};
+var _user$project$Landing$fromSerializable = function (smodel) {
+	return A2(_elm_lang$core$List$map, _user$project$Landing$campaignFromSerializable, smodel.campaigns);
+};
+var _user$project$Landing$DialogMsg = function (a) {
+	return {ctor: 'DialogMsg', _0: a};
+};
+var _user$project$Landing$init = function (savedModel) {
+	var _p2 = _user$project$NewCampaign$init;
+	var dialogModel = _p2._0;
+	var dialogCmd = _p2._1;
+	var $default = {campaigns: _user$project$Landing$exampleCampaigns, createDialog: dialogModel};
+	var model = A2(
+		_elm_lang$core$Maybe$withDefault,
+		$default,
+		A2(
+			_elm_lang$core$Maybe$map,
+			function (cs) {
+				return {campaigns: cs, createDialog: dialogModel};
+			},
+			A2(_elm_lang$core$Maybe$map, _user$project$Landing$fromSerializable, savedModel)));
+	return A2(
+		_elm_lang$core$Platform_Cmd_ops['!'],
+		model,
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$core$Platform_Cmd$map,
+				function (c) {
+					return _user$project$Landing$DialogMsg(c);
+				},
+				dialogCmd),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Landing$update = F2(
+	function (msg, model) {
+		var _p3 = msg;
+		switch (_p3.ctor) {
+			case 'NoOp':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					model,
+					{ctor: '[]'});
+			case 'Add':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							campaigns: A2(
+								_elm_lang$core$List$append,
+								model.campaigns,
+								{
+									ctor: '::',
+									_0: _p3._0,
+									_1: {ctor: '[]'}
+								})
+						}),
+					{ctor: '[]'});
+			case 'SetPinned':
+				var updateCampaign = function (c) {
+					return _elm_lang$core$Native_Utils.eq(c.name, _p3._0) ? _elm_lang$core$Native_Utils.update(
+						c,
+						{pinned: _p3._1}) : c;
+				};
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							campaigns: A2(_elm_lang$core$List$map, updateCampaign, model.campaigns)
+						}),
+					{ctor: '[]'});
+			default:
+				var _p4 = A2(_user$project$NewCampaign$update, _p3._0, model.createDialog);
+				var ncModel = _p4._0;
+				var ncCmd = _p4._1;
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{createDialog: ncModel}),
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$core$Platform_Cmd$map,
+							function (c) {
+								return _user$project$Landing$DialogMsg(c);
+							},
+							ncCmd),
+						_1: {ctor: '[]'}
+					});
+		}
+	});
+var _user$project$Landing$updateWithStorage = F2(
+	function (msg, model) {
+		var _p5 = A2(_user$project$Landing$update, msg, model);
+		var newModel = _p5._0;
+		var cmds = _p5._1;
+		return {
+			ctor: '_Tuple2',
+			_0: newModel,
+			_1: _elm_lang$core$Platform_Cmd$batch(
+				{
+					ctor: '::',
+					_0: _user$project$Landing$setStorage(
+						_user$project$Landing$toSerializable(newModel)),
+					_1: {
+						ctor: '::',
+						_0: cmds,
+						_1: {ctor: '[]'}
+					}
+				})
+		};
+	});
 var _user$project$Landing$SetPinned = F2(
 	function (a, b) {
 		return {ctor: 'SetPinned', _0: a, _1: b};
@@ -10949,8 +11141,8 @@ var _user$project$Landing$campaignListItem = function (campaign) {
 			_1: {ctor: '[]'}
 		});
 	var nameArea = function () {
-		var _p2 = campaign.relationship;
-		if (_p2.ctor === 'DM') {
+		var _p6 = campaign.relationship;
+		if (_p6.ctor === 'DM') {
 			return {
 				ctor: '::',
 				_0: A2(
@@ -10972,7 +11164,7 @@ var _user$project$Landing$campaignListItem = function (campaign) {
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html$text(
-							A2(_elm_lang$core$Basics_ops['++'], _p2._0.name, ' ')),
+							A2(_elm_lang$core$Basics_ops['++'], _p6._0.name, ' ')),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
@@ -10983,7 +11175,7 @@ var _user$project$Landing$campaignListItem = function (campaign) {
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(
-								_elm_lang$core$Basics$toString(_p2._0.level)),
+								_elm_lang$core$Basics$toString(_p6._0.level)),
 							_1: {ctor: '[]'}
 						}),
 					_1: {ctor: '[]'}
@@ -11275,7 +11467,8 @@ var _user$project$Landing$view = function (model) {
 												_1: {
 													ctor: '::',
 													_0: _elm_lang$html$Html_Events$onClick(
-														_user$project$Landing$Creating(true)),
+														_user$project$Landing$DialogMsg(
+															_user$project$NewCampaign$Show(true))),
 													_1: {ctor: '[]'}
 												}
 											},
@@ -11291,7 +11484,12 @@ var _user$project$Landing$view = function (model) {
 					}),
 				_1: {
 					ctor: '::',
-					_0: _user$project$Landing$creationDialog(model.createDialog),
+					_0: A2(
+						_elm_lang$html$Html$map,
+						function (m) {
+							return _user$project$Landing$DialogMsg(m);
+						},
+						_user$project$NewCampaign$view(model.createDialog)),
 					_1: {
 						ctor: '::',
 						_0: A2(
@@ -11308,130 +11506,12 @@ var _user$project$Landing$view = function (model) {
 			}
 		});
 };
-var _user$project$Landing$Add = function (a) {
-	return {ctor: 'Add', _0: a};
-};
-var _user$project$Landing$UpdateCreateDate = function (a) {
-	return {ctor: 'UpdateCreateDate', _0: a};
-};
-var _user$project$Landing$update = F2(
-	function (msg, model) {
-		var _p3 = msg;
-		switch (_p3.ctor) {
-			case 'NoOp':
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					model,
-					{ctor: '[]'});
-			case 'GetCurrentDate':
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					model,
-					{
-						ctor: '::',
-						_0: A2(_elm_lang$core$Task$perform, _user$project$Landing$UpdateCreateDate, _elm_lang$core$Date$now),
-						_1: {ctor: '[]'}
-					});
-			case 'UpdateCreateDate':
-				var oldDialog = model.createDialog;
-				var newDialog = _elm_lang$core$Native_Utils.update(
-					oldDialog,
-					{
-						startDate: _elm_lang$core$Maybe$Just(_p3._0)
-					});
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					_elm_lang$core$Native_Utils.update(
-						model,
-						{createDialog: newDialog}),
-					{ctor: '[]'});
-			case 'Add':
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					_elm_lang$core$Native_Utils.update(
-						model,
-						{
-							campaigns: A2(
-								_elm_lang$core$List$append,
-								model.campaigns,
-								{
-									ctor: '::',
-									_0: _p3._0,
-									_1: {ctor: '[]'}
-								})
-						}),
-					{ctor: '[]'});
-			case 'SetPinned':
-				var updateCampaign = function (c) {
-					return _elm_lang$core$Native_Utils.eq(c.name, _p3._0) ? _elm_lang$core$Native_Utils.update(
-						c,
-						{pinned: _p3._1}) : c;
-				};
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					_elm_lang$core$Native_Utils.update(
-						model,
-						{
-							campaigns: A2(_elm_lang$core$List$map, updateCampaign, model.campaigns)
-						}),
-					{ctor: '[]'});
-			default:
-				var oldDialog = model.createDialog;
-				var newDialog = _elm_lang$core$Native_Utils.update(
-					oldDialog,
-					{open: _p3._0});
-				return A2(
-					_elm_lang$core$Platform_Cmd_ops['!'],
-					_elm_lang$core$Native_Utils.update(
-						model,
-						{createDialog: newDialog}),
-					{ctor: '[]'});
-		}
-	});
-var _user$project$Landing$updateWithStorage = F2(
-	function (msg, model) {
-		var _p4 = A2(_user$project$Landing$update, msg, model);
-		var newModel = _p4._0;
-		var cmds = _p4._1;
-		return {
-			ctor: '_Tuple2',
-			_0: newModel,
-			_1: _elm_lang$core$Platform_Cmd$batch(
-				{
-					ctor: '::',
-					_0: _user$project$Landing$setStorage(
-						_user$project$Landing$toSerializable(newModel)),
-					_1: {
-						ctor: '::',
-						_0: cmds,
-						_1: {ctor: '[]'}
-					}
-				})
-		};
-	});
-var _user$project$Landing$GetCurrentDate = {ctor: 'GetCurrentDate'};
-var _user$project$Landing$init = function (savedModel) {
-	return A2(
-		_elm_lang$core$Platform_Cmd_ops['!'],
-		A2(
-			_elm_lang$core$Maybe$withDefault,
-			_user$project$Landing$exampleModel,
-			A2(_elm_lang$core$Maybe$map, _user$project$Landing$fromSerializable, savedModel)),
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$core$Task$perform,
-				_elm_lang$core$Basics$identity,
-				_elm_lang$core$Task$succeed(_user$project$Landing$GetCurrentDate)),
-			_1: {ctor: '[]'}
-		});
-};
 var _user$project$Landing$main = _elm_lang$html$Html$programWithFlags(
 	{
 		init: _user$project$Landing$init,
 		view: _user$project$Landing$view,
 		update: _user$project$Landing$updateWithStorage,
-		subscriptions: function (_p5) {
+		subscriptions: function (_p7) {
 			return _elm_lang$core$Platform_Sub$none;
 		}
 	})(
@@ -11447,13 +11527,8 @@ var _user$project$Landing$main = _elm_lang$html$Html$programWithFlags(
 					A2(
 						_elm_lang$core$Json_Decode$andThen,
 						function (campaigns) {
-							return A2(
-								_elm_lang$core$Json_Decode$andThen,
-								function (creating) {
-									return _elm_lang$core$Json_Decode$succeed(
-										{campaigns: campaigns, creating: creating});
-								},
-								A2(_elm_lang$core$Json_Decode$field, 'creating', _elm_lang$core$Json_Decode$bool));
+							return _elm_lang$core$Json_Decode$succeed(
+								{campaigns: campaigns});
 						},
 						A2(
 							_elm_lang$core$Json_Decode$field,
@@ -11525,6 +11600,9 @@ var _user$project$Landing$main = _elm_lang$html$Html$programWithFlags(
 				_1: {ctor: '[]'}
 			}
 		}));
+var _user$project$Landing$Add = function (a) {
+	return {ctor: 'Add', _0: a};
+};
 var _user$project$Landing$NoOp = {ctor: 'NoOp'};
 
 var Elm = {};
