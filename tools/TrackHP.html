@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .D2,.D3{
+            width: 22px;
+        }
+        #D2Value,#D3Value{
+            width: 30px;
+            border:none;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+            text-align: left;
+            
+
+        }
+    </style>
+</head>
+
+<body>
+        <h2>Track HP</h2>
+    <table id="maxHP" style="width:100%">
+        <tr>
+            <th>Character</th>
+            <th>Max HP</th>
+            <th>HP</th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+            <th>7</th>
+            <th>8</th>
+            <th>9</th>
+            <th>10</th>
+            <th>11</th>
+            <th>12</th>
+            <th>13</th>
+            <th>14</th>
+            <th>15</th>
+            <th>16</th>
+            <th>17</th>
+            <th>18</th>
+            <th>19</th>
+            <th>20</th>
+            <th>21</th>
+            <th>22</th>
+            <th>23</th>
+        </tr>
+        
+        <tr>
+            <td>D1</td>
+            <td>48</td>
+            <td>32</td>
+            <td bgcolor="yellow">16</td>
+            <td>10</td>
+            <td bgcolor="brown"> 4</td>
+            <td bgcolor="brown">2</td>
+            <td>0</td>
+            <td>0</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            
+
+        </tr>
+
+        <tr>
+                <td>D2</td>
+                <td>54</td>
+                <td>40</td>
+                <td></td>
+                <td>0</td>
+                <td bgcolor="yellow"> 20</td>
+                <td bgcolor="brown">2</td>
+                <td bgcolor="red">10</td>
+                <td bgcolor="orange">8</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                
+    
+            </tr>
+
+        <tr>
+            <td>D3</td>
+            <td></td>
+            <td><input type="text" id="D2Value" name="D2Value"/></td>
+            <td> <input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+            <td><input type="text" name="" class="D2"/> </td>
+
+        </tr>
+    </table>
+
+    <button type="button" onclick="AddRowandColumn()">
+            +
+        </button>
+   
+    
+    <script>
+
+
+var classname = document.getElementsByClassName("D2");
+
+var myFunction = function() {
+    //var attribute = this.getAttribute("value");
+    document.getElementById("D2Value").value= Number(document.getElementById("D2Value").value) + Number(this.value);
+};
+
+for (var i = 0; i < classname.length; i++) {
+    classname[i].addEventListener('change', myFunction, false);
+}
+
+
+
+
+    function AddRowandColumn() {
+
+        var newelement='<tr><td>D4</td>'
+            +'<td></td>'
+            +'<td><input type="text" id="D3Value" name="D3Value"/></td>'
+            +'<td> <input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+            +'<td><input type="text" name="" class="D3"/> </td>'
+
+        +'</tr>';
+            document.getElementById("maxHP").innerHTML+=newelement;
+
+
+            var classname = document.getElementsByClassName("D2");
+
+
+
+for (var i = 0; i < classname.length; i++) {
+    classname[i].addEventListener('change', myFunction, false);
+}
+
+
+        } 
+    </script>
+    
+</body>
+</html>

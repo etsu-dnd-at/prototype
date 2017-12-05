@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .PCform {
+            width: 450px;
+        }
+
+        fieldset {
+            background-color: white;
+            text-align: justify;
+            color: blue;
+            /*border-color: grey;
+            border-style: solid;
+            border-width: 50px;
+           */
+            /*margin: 25px 100px;*/
+            padding: 5px 50px;
+            /*width: 900px;
+            height: 500px;*/
+            font-family: 'Times New Roman';
+        }
+
+        .SubmitButtons input {
+            float: right;
+            margin: 5px;
+        }
+
+        label {
+            width: 90px;
+            display: inline-block;
+        }
+
+        select {
+            border-radius: 3px;
+            background-color: white;
+            color: blue;
+            font-family: 'Times New Roman';
+            font-size: 13px;
+        }
+
+        body {
+            background-color: white;
+
+        }
+    </style>
+</head>
+
+<body>
+    <form action="view-players.html" autocomplete="on" class="PCform">
+        <fieldset>
+            <h2>Add New PC</h2>
+            <label>PC's Name:</label>
+            <input type="text" name="pc">
+            <br>
+            <br>
+            <label>Race:</label>
+            <input type="text" name="race" />
+            <br>
+            <br>
+            <div id="LevelsDiv">
+                <div id="level">
+                    <label> Level:</label>
+                    <select name="Select" style="max-width:170px;min-width:170px;height: 25px;">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                        <option>13</option>
+                        <option>14</option>
+                        <option>15</option>
+                        <option>16</option>
+                        <option>17</option>
+                        <option>18</option>
+                        <option>19</option>
+                        <option>20</option>
+                    </select>
+                    <button type="button" onclick="AddLevel()">
+                        +
+                    </button>
+
+                </div>
+            </div>
+
+            </div>
+            <br>
+            <div id="ClassDiv">
+                <div id="classs">
+                    <label> Class:</label>
+                    <input type="text" name="class" />
+                    <button type="button" onclick="AddClass()">
+                        +
+                    </button>
+                </div>
+            </div>
+                    <br>
+                    <label> Current XP:</label>
+                    <input type="number" name="current xp" />
+                    <br>
+                    <br>
+            
+                <b>Other Attributes</b>
+                <br/>
+                <div id="AttributeDiv">
+                        <div id="attribute">
+                <select name="OtherAttributes" id="" style="height: 25px;">
+                    <option>Select</option>
+                    <option>Vision</option>
+                    <option>Curse</option>
+                    <option>Madness</option>
+                    <option>Exhaustion</option>
+                </select>
+                <input type="text" name="otherattributes" />
+                <button type="button" onclick="AddAttribute()">
+                    +
+                </button>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="SubmitButtons">
+                <input type="Submit" value="Save" onclick="alert('PC information saved successfully')"> &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="Submit" value="Cancel" onclick="alert('PC information not saved')">
+            </div>
+
+        </fieldset>
+
+    </form>
+
+    <script>
+        function AddLevel() {
+            newelement = document.getElementById("level").cloneNode(true)
+            document.getElementById("LevelsDiv").appendChild(newelement);
+        }
+        function AddClass() {
+            newelement = document.getElementById("ClassDiv").cloneNode(true)
+            document.getElementById("classs").appendChild(newelement);
+        }
+        function AddAttribute() {
+            newelement = document.getElementById("AttributeDiv").cloneNode(true)
+            document.getElementById("attribute").appendChild(newelement);
+        }
+
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        table,th,td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            background-color: white;
+            text-align: justify;
+            vertical-align: bottom;
+            margin-top:40px;
+            margin-left:40px;
+
+        }
+        th,td {
+            padding: 5px;
+            color: blue;
+        }
+        select {
+        border-radius: 3px;
+        background-color: white;
+        color: blue;
+        font-family: 'Times New Roman';
+        font-size: 17px;
+    }
+    </style>
+</head>
+
+<body>
+    <br> <br> <br>
+    <div style="width:70%">
+        <table style="width:70%" class="PCTable">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>PC</th>
+                    <th>Race</th>
+                    <th>Class</th>
+                    <th>Level</th>
+                    <th>XP</th>
+                    <th>Passive Perception</th>
+                    <th>
+                        
+                    <select name="OtherAttributes" id="" onchange="ShowAttributes()" style="max-width:170px;min-width:170px;height: 25px;">
+                            <option>Vision</option>
+                            <option>Curse</option>
+                            <option>Madness</option>
+                            <option>Exhaustion</option>
+                        </select>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="select" />
+                    </td>
+                    <td>Noster</td>
+                    <td>High-Elf</td>
+                    <td>Rogue</td>
+                    <td>9</td>
+                    <td>56610</td>
+                    <td>12</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="select" />
+                    </td>
+                    <td>Fargrim</td>
+                    <td>Dueergar</td>
+                    <td>Druid</td>
+                    <td>8</td>
+                    <td>40595</td>
+                    <td>9</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="select" />
+                    </td>
+                    <td>Merric</td>
+                    <td>Halfling</td>
+                    <td>Warlock</td>
+                    <td>9</td>
+                    <td>39820</td>
+                    <td>13</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="select" />
+                    </td>
+                    <td>Shrek</td>
+                    <td>High-ELf</td>
+                    <td>Paladin</td>
+                    <td>4</td>
+                    <td>56930</td>
+                    <td>15</td>
+                    <td>0</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" class="select" />
+                    </td>
+                    <td>Jimjar</td>
+                    <td>Deep Gnome</td>
+                    <td>Ranger</td>
+                    <td>1</td>
+                    <td>42900</td>
+                    <td>16</td>
+                    <td>2</td>
+                </tr>
+            </tbody>
+        </table>
+<br> <br> <br>
+    </div>
+   
+            <button type="button" onclick="window.location.href='new-player.html'">
+                    New PC
+                </button>
+            <br> <br> <br>
+             <button type="button" disabled>
+                    New NPC
+                 </button> 
+                 <br> <br> <br>
+            <button type="button" onclick="window.location.href='edit-player.html'">
+                Edit
+            </button>
+      <script>
+       function ShowAttributes()
+       {
+       
+        /*document.getElementsByClassName('PCTable').find('tr').each(function(){`
+           var trow = $(this);
+             if(trow.index() === 0){
+                 trow.append('<td>Col'+iter+'</td>');
+             }else{
+                 trow.append('<td><input type="checkbox" name="cb'+iter+'"/></td>');
+             }
+            
+         });
+         iter += 1;
+         */
+       }
+
+      </script>      
+    
+</body>
+
+</html>
