@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>DnD Adventure Tracker - Home</title>
+    <link rel="stylesheet" href="./styles.css"/>
+</head>
+
+<body>
+    <!-- page header bar -->
+    <header>
+        <div>
+            <h1>DnD Adventure Tracker</h1>
+        </div>
+        <div>
+            <nav>
+                <ul>
+                    <li><a href="#">Test 1</a></li>
+                    <li><a href="#">Test 2</a></li>
+                    <li><a href="#">Test 3</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div></div>
+    </header>
+
+    <!-- page content -->
+    <div id="content">
+    </div>
+
+    <script type="text/javascript" src="build/Landing.js"></script>
+    <script type="text/javascript">
+        var storedState = localStorage.getItem('elm-campaign-save');
+        var startingState = storedState ? JSON.parse(storedState) : null;
+
+        var node = document.getElementById('content');
+        var app = Elm.Landing.embed(node, startingState);
+
+        app.ports.setStorage.subscribe(function(state) {
+            localStorage.setItem('elm-campaign-save', JSON.stringify(state));
+        });
+    </script>
+
+</body>
+</html>

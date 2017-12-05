@@ -1,0 +1,179 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Page Header */
+
+body > header {
+    border-bottom: 1px solid gray;
+    margin: 0 1em;
+}
+
+header h1 {
+    margin-bottom: 0;
+    font-size: 18pt;
+    font-weight: normal;
+}
+
+header > div:first-of-type {
+    float: left;
+}
+
+header > div:nth-of-type(2) {
+    float: right;
+}
+
+header > div:last-of-type {
+    float: none;
+    clear: both;
+}
+
+header nav ul {
+    padding-top: 0.5em;
+    margin-bottom: 0;
+}
+
+header nav li {
+    display: inline-block;
+    padding-left: 0.5em;
+}
+
+/* Page Content */
+
+div#content {
+    margin: 1em auto;
+    max-width: 960px;
+}
+
+/* Styles that apply to both lists of campaigns on the page */
+
+.list-container {
+    border-left: 1px solid lightgray;
+    margin: 1em;
+    padding-left: 0.5em;
+}
+
+.list-container h2 {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+
+.list-item {
+    border: 1px solid darkgray;
+    padding: 0.5em;
+    margin: 1em 0;
+}
+
+.list-item h3 {
+    margin: 0;
+}
+
+.list-item h4 {
+    margin: 0;
+}
+
+/* Put pinned on the left with more space, all on the right with less space*/
+
+#pinned-container {
+    float: left;
+    width: 50%;
+    margin-left: 5%;
+}
+
+#all-container {
+    float: right;
+    width: 30%;
+    margin-right: 5%;
+}
+
+/* Specific to the larger, more detailed pinned campaigns */
+
+.pinned-campaign {
+    padding: 1em;
+}
+
+.pinned-buttons {
+    margin-top: 1em;
+}
+
+.pinned-unpin {
+    float: right;
+}
+
+/* specific to smaller, less detailed all campaigns list */
+
+.camp-pin {
+    float: right;
+}
+
+div#add-campaign {
+    margin-bottom: 0.5em;
+}
+
+/* modal dialog for creating a new campaign
+   https://tympanus.net/codrops/2013/06/25/nifty-modal-window-effects/
+ */
+.md-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-width: 630px;
+    min-width: 320px;
+    height: auto;
+    z-index: 200;
+    visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+.md-show {
+    visibility: visible;
+}
+
+.md-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    z-index: 100;
+    opacity: 0;
+    background: rgba(180,180,180,0.6);
+}
+
+.md-show ~ .md-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+.md-content {
+    margin: 1em;
+}
+
+#creation-modal {
+    border: 1px solid gray;
+    background-color: white;
+    box-shadow: -2px 2px 5px #555;
+}
+
+#creation-modal h4 {
+    margin-bottom: 0;
+}
+
+#creation-modal button {
+    margin-top: 1em;
+    margin-right: 1em;
+}
+
+#create-submit {
+    font-size: larger;
+}
+
+#create-cancel {
+    font-style: italic;
+}
+
+
