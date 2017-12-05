@@ -3,8 +3,9 @@ port module Landing exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
-import Date exposing (Date, fromString, toTime)
+import Date exposing (Date, fromString, toTime, now)
 import Date.Extra as Date
+import Task
 
 -- TODO: Need a separate type for storing this thing as Javascript?
 -- init's first argument must be JSONable, and
@@ -41,7 +42,7 @@ updateWithStorage msg model =
 
 type alias Model =
     { campaigns : List Campaign
-    , creating : Bool
+    , createDialog : DialogModel
     }
 
 type alias Campaign =
@@ -51,6 +52,14 @@ type alias Campaign =
     , lastPlayed : Maybe Date
     , pinned : Bool
     , relationship : CampaignRelation
+    }
+
+type alias DialogModel =
+    { open : Bool
+    , name : String
+    , startDate : Maybe Date
+    , nameError : Maybe String
+    , dateError : Maybe String
     }
 
 newCampaign : String -> Date -> Campaign
@@ -85,6 +94,15 @@ type alias SerializableCampaign =
     , pinned : Bool
     , dm : Bool
     , character : Maybe Character
+    }
+
+blankDialogModel : Bool -> DialogModel
+blankDialogModel open =
+    { open = open
+    , name = ""
+    , startDate = Nothing
+    , nameError = Nothing
+    , dateError = Nothing
     }
 
 exampleModel : Model
@@ -122,17 +140,17 @@ exampleModel =
             ]
     in
         { campaigns = exampleCampaigns
-        , creating = False
+        , createDialog = blankDialogModel False
         }
 
 init : Maybe SerializableModel -> ( Model, Cmd Msg )
 init savedModel =
-    (savedModel |> Maybe.map fromSerializable |> Maybe.withDefault exampleModel) ! []
+    (savedModel |> Maybe.map fromSerializable |> Maybe.withDefault exampleModel) ! [ Task.perform identity (Task.succeed GetCurrentDate) ]
 
 toSerializable : Model -> SerializableModel
 toSerializable model =
     { campaigns = List.map campaignToSerializable model.campaigns
-    , creating = model.creating
+    , creating = model.createDialog.open
     }
 
 campaignToSerializable : Campaign -> SerializableCampaign
@@ -160,7 +178,7 @@ campaignToSerializable model =
 fromSerializable : SerializableModel -> Model
 fromSerializable smodel =
     { campaigns = List.map campaignFromSerializable smodel.campaigns
-    , creating = smodel.creating
+    , createDialog = blankDialogModel smodel.creating
     }
 
 campaignFromSerializable : SerializableCampaign -> Campaign
@@ -187,6 +205,8 @@ campaignFromSerializable scamp =
 
 type Msg
     = NoOp
+    | GetCurrentDate
+    | UpdateCreateDate Date
     | Add Campaign
     | SetPinned String Bool
     | Creating Bool
@@ -196,6 +216,17 @@ update msg model =
     case msg of
         NoOp ->
             model ! []
+
+        GetCurrentDate ->
+            model ! [ Task.perform UpdateCreateDate now ]
+
+        UpdateCreateDate newDate ->
+            let
+                oldDialog = model.createDialog
+                newDialog = { oldDialog | startDate = Just newDate }
+            in
+                { model | createDialog = newDialog
+                } ! []
 
         Add newCampaign ->
             { model |
@@ -216,7 +247,11 @@ update msg model =
                 } ! []
 
         Creating flag ->
-            { model | creating = flag } ! []
+            let
+                oldDialog = model.createDialog
+                newDialog = { oldDialog | open = flag }
+            in
+                { model | createDialog = newDialog } ! []
 
 -------------------------------------------------------------------------------
 -- VIEW
@@ -246,7 +281,7 @@ view model =
                     [ text "+ Start a campaign" ]
                 ])
             ]
-        , creationDialog model
+        , creationDialog model.createDialog
         , div [ class "md-overlay" ] []
         ]
 
@@ -316,10 +351,10 @@ pinnedListItem campaign =
             ]
         ]
 
-creationDialog : Model -> Html Msg
+creationDialog : DialogModel -> Html Msg
 creationDialog model =
     div
-        [ class (if model.creating then "md-modal md-show" else "md-modal")
+        [ class (if model.open then "md-modal md-show" else "md-modal")
         , id "creation-modal"
         ]
         [ div
@@ -327,12 +362,29 @@ creationDialog model =
             [ h3 [] [ text "Start a Campaign" ]
             , div
                 []
-                [ p [] [ text "This is where the form will go!" ]
+                [ div
+                    []
+                    [ h4 [] [ text "Name your campaign" ]
+                    , input
+                        [ type_ "text"
+                        , placeholder "e.g. 'You shall not pass'"
+                        , value model.name
+                        ] []
+                    ]
+                , div
+                    []
+                    [ h4 [] [ text "Choose a start date" ]
+                    , input
+                        [ type_ "date"
+                        , model.startDate |> Maybe.map (Date.toFormattedString "yyyy-MM-dd") |> Maybe.withDefault "2018-01-01" |> value
+                        ]
+                        []
+                    ]
                 , button
-                    [ class "md-submit" ]
+                    [ id "create-submit" ]
                     [ text "Start!" ]
                 , button
-                    [ class "md-cancel"
+                    [ id "create-cancel"
                     , onClick <| Creating False
                     ]
                     [ text "or, cancel" ]
