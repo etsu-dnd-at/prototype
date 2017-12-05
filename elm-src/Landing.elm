@@ -299,7 +299,7 @@ pinnedListItem campaign =
         [ div
             [ class "pinned-unpin" ]
             [ button [ onClick <| SetPinned campaign.name False ] [ text "-" ] ]
-        , h3 [] [ text campaign.name ]
+        , a [ href "campaign/view-players.html" ] [ h3 [] [ text campaign.name ] ]
         , div
             [ class "players" ]
             [ span [] [ text <| (toString campaign.players) ++ " players" ] ]
