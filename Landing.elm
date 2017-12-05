@@ -7,6 +7,8 @@ import Date exposing (Date, fromString, toTime, now)
 import Date.Extra as Date
 import Task
 
+import NewCampaign
+
 -- TODO: Need a separate type for storing this thing as Javascript?
 -- init's first argument must be JSONable, and
 -- the type on the setStorage port must also be JSOnable
@@ -42,7 +44,7 @@ updateWithStorage msg model =
 
 type alias Model =
     { campaigns : List Campaign
-    , createDialog : DialogModel
+    , createDialog : NewCampaign.Model
     }
 
 type alias Campaign =
@@ -52,14 +54,6 @@ type alias Campaign =
     , lastPlayed : Maybe Date
     , pinned : Bool
     , relationship : CampaignRelation
-    }
-
-type alias DialogModel =
-    { open : Bool
-    , name : String
-    , startDate : Maybe Date
-    , nameError : Maybe String
-    , dateError : Maybe String
     }
 
 newCampaign : String -> Date -> Campaign
@@ -83,7 +77,6 @@ type alias Character =
 
 type alias SerializableModel =
     { campaigns : List SerializableCampaign
-    , creating : Bool
     }
 
 type alias SerializableCampaign =
@@ -96,61 +89,56 @@ type alias SerializableCampaign =
     , character : Maybe Character
     }
 
-blankDialogModel : Bool -> DialogModel
-blankDialogModel open =
-    { open = open
-    , name = ""
-    , startDate = Nothing
-    , nameError = Nothing
-    , dateError = Nothing
-    }
-
-exampleModel : Model
-exampleModel =
-    let
-        exampleCampaigns =
-            [   { name = "Trekking Blackmoor"
-                , players = 6
-                , startDate = (Result.toMaybe <| Date.fromString <| "2015-06-11")
-                , lastPlayed = (Result.toMaybe <| Date.fromString <| "2017-12-02")
-                , pinned = True
-                , relationship = DM
-                }
-            ,   { name = "Example Campaign"
-                , players = 3
-                , startDate = (Result.toMaybe <| Date.fromString <| "2017-12-04")
-                , lastPlayed = Nothing
-                , pinned = True
-                , relationship = DM
-                }
-            ,   { name = "Shadow of Mordor"
-                , players = 2
-                , startDate = (Result.toMaybe <| Date.fromString <| "2017-12-03")
-                , lastPlayed = Nothing
-                , pinned = False
-                , relationship = Player <| Character "Orcy the Orc" 6
-                }
-            ,   { name = "Rogue One"
-                , players = 2
-                , startDate = (Result.toMaybe <| Date.fromString <| "2017-12-01")
-                , lastPlayed = Nothing
-                , pinned = False
-                , relationship = Player <| Character "K2S0" 4
-                }
-            ]
-    in
-        { campaigns = exampleCampaigns
-        , createDialog = blankDialogModel False
-        }
-
 init : Maybe SerializableModel -> ( Model, Cmd Msg )
 init savedModel =
-    (savedModel |> Maybe.map fromSerializable |> Maybe.withDefault exampleModel) ! [ Task.perform identity (Task.succeed GetCurrentDate) ]
+    let
+        (dialogModel, dialogCmd) = NewCampaign.init
+        default =
+            { campaigns = exampleCampaigns
+            , createDialog = dialogModel
+            }
+        model = savedModel
+                    |> Maybe.map fromSerializable
+                    |> Maybe.map (\cs -> { campaigns = cs, createDialog = dialogModel })
+                    |> Maybe.withDefault default
+    in
+        model ! [ Cmd.map (\c -> DialogMsg c) dialogCmd ]
+
+exampleCampaigns : List Campaign
+exampleCampaigns =
+    [   { name = "Trekking Blackmoor"
+        , players = 6
+        , startDate = (Result.toMaybe <| Date.fromString <| "2015-06-11")
+        , lastPlayed = (Result.toMaybe <| Date.fromString <| "2017-12-02")
+        , pinned = True
+        , relationship = DM
+        }
+    ,   { name = "Example Campaign"
+        , players = 3
+        , startDate = (Result.toMaybe <| Date.fromString <| "2017-12-04")
+        , lastPlayed = Nothing
+        , pinned = True
+        , relationship = DM
+        }
+    ,   { name = "Shadow of Mordor"
+        , players = 2
+        , startDate = (Result.toMaybe <| Date.fromString <| "2017-12-03")
+        , lastPlayed = Nothing
+        , pinned = False
+        , relationship = Player <| Character "Orcy the Orc" 6
+        }
+    ,   { name = "Rogue One"
+        , players = 2
+        , startDate = (Result.toMaybe <| Date.fromString <| "2017-12-01")
+        , lastPlayed = Nothing
+        , pinned = False
+        , relationship = Player <| Character "K2S0" 4
+        }
+    ]
 
 toSerializable : Model -> SerializableModel
 toSerializable model =
     { campaigns = List.map campaignToSerializable model.campaigns
-    , creating = model.createDialog.open
     }
 
 campaignToSerializable : Campaign -> SerializableCampaign
@@ -175,11 +163,9 @@ campaignToSerializable model =
         , lastPlayed = Maybe.withDefault 0.0 <| Maybe.map toTime model.lastPlayed
         }
 
-fromSerializable : SerializableModel -> Model
+fromSerializable : SerializableModel -> List Campaign
 fromSerializable smodel =
-    { campaigns = List.map campaignFromSerializable smodel.campaigns
-    , createDialog = blankDialogModel smodel.creating
-    }
+    List.map campaignFromSerializable smodel.campaigns
 
 campaignFromSerializable : SerializableCampaign -> Campaign
 campaignFromSerializable scamp =
@@ -205,28 +191,15 @@ campaignFromSerializable scamp =
 
 type Msg
     = NoOp
-    | GetCurrentDate
-    | UpdateCreateDate Date
     | Add Campaign
     | SetPinned String Bool
-    | Creating Bool
+    | DialogMsg NewCampaign.Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         NoOp ->
             model ! []
-
-        GetCurrentDate ->
-            model ! [ Task.perform UpdateCreateDate now ]
-
-        UpdateCreateDate newDate ->
-            let
-                oldDialog = model.createDialog
-                newDialog = { oldDialog | startDate = Just newDate }
-            in
-                { model | createDialog = newDialog
-                } ! []
 
         Add newCampaign ->
             { model |
@@ -246,12 +219,11 @@ update msg model =
                     campaigns = List.map updateCampaign model.campaigns
                 } ! []
 
-        Creating flag ->
+        DialogMsg m ->
             let
-                oldDialog = model.createDialog
-                newDialog = { oldDialog | open = flag }
+                ( ncModel, ncCmd ) = NewCampaign.update m model.createDialog
             in
-                { model | createDialog = newDialog } ! []
+                { model | createDialog = ncModel } ! [ Cmd.map (\c -> DialogMsg c) ncCmd ]
 
 -------------------------------------------------------------------------------
 -- VIEW
@@ -276,12 +248,12 @@ view model =
             , div [] ((List.map campaignListItem model.campaigns) ++
                 [ button
                     [ id "create-campaign-button"
-                    , onClick <| Creating True
+                    , onClick <| DialogMsg <| NewCampaign.Show True
                     ]
                     [ text "+ Start a campaign" ]
                 ])
             ]
-        , creationDialog model.createDialog
+        , ( Html.map (\m -> DialogMsg m) <| NewCampaign.view model.createDialog )
         , div [ class "md-overlay" ] []
         ]
 
@@ -348,46 +320,5 @@ pinnedListItem campaign =
             , button
                 []
                 [ text "Settings" ]
-            ]
-        ]
-
-creationDialog : DialogModel -> Html Msg
-creationDialog model =
-    div
-        [ class (if model.open then "md-modal md-show" else "md-modal")
-        , id "creation-modal"
-        ]
-        [ div
-            [ class "md-content" ]
-            [ h3 [] [ text "Start a Campaign" ]
-            , div
-                []
-                [ div
-                    []
-                    [ h4 [] [ text "Name your campaign" ]
-                    , input
-                        [ type_ "text"
-                        , placeholder "e.g. 'You shall not pass'"
-                        , value model.name
-                        ] []
-                    ]
-                , div
-                    []
-                    [ h4 [] [ text "Choose a start date" ]
-                    , input
-                        [ type_ "date"
-                        , model.startDate |> Maybe.map (Date.toFormattedString "yyyy-MM-dd") |> Maybe.withDefault "2018-01-01" |> value
-                        ]
-                        []
-                    ]
-                , button
-                    [ id "create-submit" ]
-                    [ text "Start!" ]
-                , button
-                    [ id "create-cancel"
-                    , onClick <| Creating False
-                    ]
-                    [ text "or, cancel" ]
-                ]
             ]
         ]
